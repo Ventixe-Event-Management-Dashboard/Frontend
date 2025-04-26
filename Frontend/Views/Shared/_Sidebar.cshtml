@@ -1,0 +1,58 @@
+﻿@{
+    var sidebarLinks = new List<dynamic>
+    {
+        new { Title = "Dashboard", Url = "/dashboard", Icon = "icon-dashboard" },
+        new { Title = "Bookings", Url = "/bookings", Icon = "icon-bookings" },
+        new { Title = "Invoices", Url = "/invoices", Icon = "icon-invoices" },
+        new { Title = "Inbox", Url = "/inbox", Icon = "icon-inbox" },
+        new { Title = "Calendar", Url = "/calendar", Icon = "icon-calendar" },
+        new { Title = "Events", Url = "/events", Icon = "icon-events" },
+        new { Title = "Financials", Url = "/financials", Icon = "icon-financials" },
+        new { Title = "Gallery", Url = "/gallery", Icon = "icon-gallery" },
+        new { Title = "Feedback", Url = "/feedback", Icon = "icon-feedback" },
+    };
+}
+
+<aside class="sidebar">
+    <div class="sidebar__top">
+        <div class="sidebar__logo">
+            <a href="#">
+                <img src="~/images/ventixe-logotype.svg" alt="Ventixe Logotype" />
+                <span>Ventixe</span>
+            </a>
+        </div>
+        <nav class="sidebar__nav">
+            <ul class="sidebar__nav-list">
+                @foreach (var link in sidebarLinks)
+                {
+                    var isActive = ViewData["ActivePage"] as string == link.Title.ToLower();
+                    <li class="sidebar__nav-item @(isActive ? "sidebar__nav-item--active" : "")">
+                        <a href="@link.Url">
+                            <svg width="24" height="24">
+                                <use href="#@link.Icon" />
+                            </svg>
+                            @link.Title
+                        </a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+    <div class="sidebar__bottom">
+        <div class="sidebar__card">
+            <div class="sidebar__card-image">
+                <img src="./images/card__image.svg" alt="" />
+            </div>
+            <div class="sidebar__card-text">
+                Experience enhanced features and a smoother interface with the
+                latest version of Ventixe
+            </div>
+            <a href="#" class="sidebar__card-button">Try New Version</a>
+        </div>
+        <div class="sidebar__signout">
+            <a href="#" class="sidebar__signout-button">
+                <img src="./images/SignOut.svg" alt="" />Sign out
+            </a>
+        </div>
+    </div>
+</aside>

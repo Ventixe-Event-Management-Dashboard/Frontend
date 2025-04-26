@@ -14,12 +14,16 @@
     <link rel="stylesheet" href="~/Frontend.styles.css" asp-append-version="true" />
 </head>
 <body>
+    <partial name="_Icons" />
+
     <div class="wrapper">
-        <header>Header</header>
-        <main>
+        <partial name="_Header" />
+        <partial name="_Sidebar" />
+
+        <main class="main">
             @RenderBody()
         </main>
-        <footer>Footer</footer>
+        <partial name="_Footer" />
     </div>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
