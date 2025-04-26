@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="signup-form__wrapper">
+    <form class="signup-form">
+        <h2 class="signup-form__title">Create Account</h2>
+
+        <label class="signup-form__label" for="firstName">First Name</label>
+        <input class="signup-form__input"
+               type="text"
+               id="firstName"
+               name="firstName"
+               placeholder="Enter your first name"
+               required />
+
+        <label class="signup-form__label" for="lastName">Last Name</label>
+        <input class="signup-form__input"
+               type="text"
+               id="lastName"
+               name="lastName"
+               placeholder="Enter your last name"
+               required />
+
+        <label class="signup-form__label" for="email">Email</label>
+        <input class="signup-form__input"
+               type="email"
+               id="email"
+               name="email"
+               placeholder="Enter your email"
+               required />
+
+        <label class="signup-form__label" for="password">Password</label>
+        <input class="signup-form__input"
+               type="password"
+               id="password"
+               name="password"
+               placeholder="Enter your password"
+               required />
+
+        <label class="signup-form__label" for="confirm-password">Confirm Password</label>
+        <input class="signup-form__input"
+               type="password"
+               id="confirm-password"
+               name="confirm-password"
+               placeholder="Confirm your password"
+               required />
+
+        <button type="submit" class="signup-form__button">Sign Up</button>
+
+        <p class="signup-form__text">
+            Already have an account?
+            <a class="signup-form__link" href="/signin">Log in</a>
+        </p>
+    </form>
+</div>
