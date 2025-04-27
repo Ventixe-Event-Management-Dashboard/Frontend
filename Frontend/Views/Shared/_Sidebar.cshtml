@@ -18,7 +18,7 @@
         <div class="sidebar__logo">
             <a href="#">
                 <img src="~/images/ventixe-logotype.svg" alt="Ventixe Logotype" />
-                <span>Ventixe</span>
+                <span class="sidebar__logo-text">Ventixe</span>
             </a>
         </div>
         <nav class="sidebar__nav">
@@ -31,7 +31,7 @@
                             <svg width="24" height="24">
                                 <use href="#@link.Icon" />
                             </svg>
-                            @link.Title
+                            <span class="sidebar__text">@link.Title</span>
                         </a>
                     </li>
                 }
@@ -51,7 +51,8 @@
         </div>
         <div class="sidebar__signout">
             <a href="/signin" class="sidebar__signout-button">
-                <img src="./images/SignOut.svg" alt="" />Sign out
+                <img src="./images/SignOut.svg" alt="" class="sidebar__signout-icon" />
+                <span class="sidebar__signout-text">Sign out</span>
             </a>
         </div>
     </div>
