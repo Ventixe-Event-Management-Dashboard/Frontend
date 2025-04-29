@@ -468,6 +468,48 @@ a {
   display: flex;
   gap: 1rem;
   align-items: center;
+
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .footer__left {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+
+/* SIGNUP FORM */
+.signup-form__wrapper {
+    min-height: 100vh;
+    background-color: var(--grey-20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+@media (max-width:615px) {
+    .signup-form__wrapper {
+        max-width: 600px;
+        padding: 20px;
+    }
+}
+
+@media (max-width:480px) {
+    .signup-form__wrapper {
+        max-width: 300px;
+        padding: 15px;
+    }
 }
 
 /* AUTH FORM */
