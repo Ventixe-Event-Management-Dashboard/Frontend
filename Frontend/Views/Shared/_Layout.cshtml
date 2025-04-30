@@ -1,4 +1,23 @@
-﻿<!DOCTYPE html>
+﻿@using Frontend.Controllers
+@using Frontend.Models
+@{
+    var sidebarLinks = new List<SidebarLink>
+    {
+        new SidebarLink { Title = "Dashboard", Url = "/dashboard", Icon = "icon-dashboard" },
+        new SidebarLink { Title = "Bookings", Url = "/bookings", Icon = "icon-bookings" },
+        new SidebarLink { Title = "Invoices", Url = "/invoices", Icon = "icon-invoices" },
+        new SidebarLink { Title = "Inbox", Url = "/inbox", Icon = "icon-inbox" },
+        new SidebarLink { Title = "Calendar", Url = "/calendar", Icon = "icon-calendar" },
+        new SidebarLink { Title = "Events", Url = "/events", Icon = "icon-events" },
+        new SidebarLink { Title = "Financials", Url = "/financials", Icon = "icon-financials" },
+        new SidebarLink { Title = "Gallery", Url = "/gallery", Icon = "icon-gallery" },
+        new SidebarLink { Title = "Feedback", Url = "/feedback", Icon = "icon-feedback" }
+    };
+
+    ViewData["SidebarLinks"] = sidebarLinks;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,13 +37,14 @@
 
     <div class="wrapper">
         <partial name="_Header" />
+        @await Html.PartialAsync("_ViewMobileMenu", ViewData["SidebarLinks"] as IEnumerable<SidebarLink>)
         <partial name="_Sidebar" />
 
         <main class="main">
             @RenderBody()
         </main>
         <partial name="_Footer" />
-    </div>
+    </div>  
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
