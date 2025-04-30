@@ -1,56 +1,48 @@
-﻿@{
+﻿@model SignUpForm
+
+@{
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
 
-<div class="signup-form__wrapper">
-    <form class="signup-form">
-        <h2 class="signup-form__title">Create Account</h2>
+<div class="auth-form__wrapper">
+    <form method="post" class="auth-form" novalidate> 
+        <h2 class="auth-form__title">Create Account</h2>
 
-        <label class="signup-form__label" for="firstName">First Name</label>
-        <input class="signup-form__input"
-               type="text"
-               id="firstName"
-               name="firstName"
-               placeholder="Enter your first name"
-               required />
+        <div>
+            <label asp-for="FirstName" class="auth-form__label" ></label>
+            <input asp-for="FirstName" class="auth-form__input" />
+            <span asp-validation-for="FirstName"></span>
+        </div>
+       
+        <div>
+            <label asp-for="LastName" class="auth-form__label" ></label>
+            <input asp-for="LastName" class="auth-form__input" />
+            <span asp-validation-for="LastName"></span>
+        </div>
 
-        <label class="signup-form__label" for="lastName">Last Name</label>
-        <input class="signup-form__input"
-               type="text"
-               id="lastName"
-               name="lastName"
-               placeholder="Enter your last name"
-               required />
+        <div>
+            <label asp-for="Email" class="auth-form__label" ></label>
+            <input asp-for="Email" class="auth-form__input" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        
+        <div>
+            <label asp-for="Password" class="auth-form__label" ></label>
+            <input asp-for="Password" class="auth-form__input" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        
+        <div>
+            <label asp-for="ConfirmPassword" class="auth-form__label" ></label>
+            <input asp-for="ConfirmPassword" class="auth-form__input" />
+            <span asp-validation-for="ConfirmPassword"></span>
+        </div>
+        
+        <button type="submit" class="auth-form__button">Sign Up</button>
 
-        <label class="signup-form__label" for="email">Email</label>
-        <input class="signup-form__input"
-               type="email"
-               id="email"
-               name="email"
-               placeholder="Enter your email"
-               required />
-
-        <label class="signup-form__label" for="password">Password</label>
-        <input class="signup-form__input"
-               type="password"
-               id="password"
-               name="password"
-               placeholder="Enter your password"
-               required />
-
-        <label class="signup-form__label" for="confirm-password">Confirm Password</label>
-        <input class="signup-form__input"
-               type="password"
-               id="confirm-password"
-               name="confirm-password"
-               placeholder="Confirm your password"
-               required />
-
-        <button type="submit" class="signup-form__button">Sign Up</button>
-
-        <p class="signup-form__text">
+        <p class="auth-form__text">
             Already have an account?
-            <a class="signup-form__link" href="/signin">Log in</a>
+            <a class="auth-form__link" href="/signin">Sign In</a>
         </p>
     </form>
 </div>

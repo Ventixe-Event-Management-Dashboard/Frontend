@@ -1,32 +1,30 @@
-﻿@{
+﻿@model SignInForm
+
+@{
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
 
-<div class="signin-form__wrapper">
-    <form class="signin-form">
-        <h2 class="signin-form__title">Sign In</h2>
+<div class="auth-form__wrapper">
+    <form method="post" class="auth-form" novalidate>
+        <h2 class="auth-form__title">Sign In</h2>
 
-        <label class="signin-form__label" for="email">Email</label>
-        <input class="signin-form__input"
-               type="email"
-               id="email"
-               name="email"
-               placeholder="Enter your email"
-               required />
+        <div>
+            <label asp-for="Email" class="auth-form__label" for="email"></label>
+            <input asp-for="Email" class="auth-form__input"/>
+            <span asp-validation-for="Email"></span>
+        </div>
+        
+        <div>
+            <label asp-for="Password" class="auth-form__label" for="password"></label>
+            <input asp-for="Password" class="auth-form__input"/>
+            <span asp-validation-for="Password"></span>
+        </div>
 
-        <label class="signin-form__label" for="password">Password</label>
-        <input class="signin-form__input"
-               type="password"
-               id="password"
-               name="password"
-               placeholder="Enter your password"
-               required />
+        <button type="submit" class="auth-form__button">Sign In</button>
 
-        <button type="submit" class="signin-form__button">Sign In</button>
-
-        <p class="signin-form__text">
+        <p class="auth-form__text">
             Don't have an account?
-            <a class="signin-form__link" href="/signup">Sign up</a>
+            <a class="auth-form__link" href="/signup">Sign up</a>
         </p>
     </form>
 </div>
