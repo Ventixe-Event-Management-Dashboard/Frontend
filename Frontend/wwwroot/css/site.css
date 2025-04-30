@@ -306,37 +306,6 @@ a {
     .mobile__menu-text {
         display: inline !important;
     }
-   
-
-@media (max-width: 1024px) {
-  .sidebar__text {
-    display: none;
-  }
-  .sidebar__nav-item a {
-    justify-content: center;
-    padding: 1rem 0;
-    gap: 0;
-  }
-  .sidebar__signout-button {
-    justify-content: center;
-  }
-  .sidebar__card {
-    display: none;
-  }
-  .sidebar__logo-text {
-    display: none;
-  }
-  .sidebar__logo a {
-    justify-content: center;
-  }
-  .sidebar__signout-text {
-    display: none;
-  }
-  .sidebar__signout-icon {
-    display: flex;
-    justify-content: space-between;
-  }
-
 }
 
 @media (max-width: 768px) {
@@ -480,29 +449,6 @@ a {
   }
 }
 
-@media (max-width: 768px) {
-  .header__hamburger-menu {
-    display: block;
-    cursor: pointer;
-  }
-  .header__right {
-    display: none;
-  }
-  .header__text {
-    display: none;
-  }
-  .header__left {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-  }
-  .header__ventixe-logo {
-    display: block;
-  }
-
-}
-
 /* Main */
 .main {
   grid-area: main;
@@ -541,10 +487,6 @@ a {
   display: flex;
   gap: 1rem;
   align-items: center;
-
-    display: flex;
-    gap: 1rem;
-    align-items: center;
 }
 
 @media (max-width: 768px) {
@@ -641,7 +583,7 @@ a {
   background-color: var(--primary-100);
   color: var(--grey-10);
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-standard);
+  font-size: var(--font-size-body);
   padding: 1rem;
   border: none;
   border-radius: 0.5rem;
@@ -862,6 +804,6 @@ a {
         display: none !important;
     }
 }
-}
+
 
 
