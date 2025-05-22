@@ -13,3 +13,23 @@
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.message-item').forEach(item => {
+        item.addEventListener('click', function () {
+            const id = this.dataset.id;
+
+            fetch(`/Inbox/GetMessageDetail/${id}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('messageDetailContainer').innerHTML = html;
+
+                    document.querySelectorAll('.message-item').forEach(el => {
+                        el.classList.remove('message-item--active');
+                    });
+
+                    this.classList.add('message-item--active');
+                });
+        });
+    });
+});

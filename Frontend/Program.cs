@@ -28,6 +28,7 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
+
 var app = builder.Build();
 
 app.UseHsts();
