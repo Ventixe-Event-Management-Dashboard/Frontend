@@ -1,46 +1,81 @@
-﻿using Frontend.Models;
+﻿using Authentication.Entities;
+using Authentication.Services;
+using Frontend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Frontend.Controllers
 {
-    public class AuthController : Controller
+    [AllowAnonymous]
+    public class AuthController(IAuthService authService) : Controller
     {
-        [Route("signup")]
+        private readonly IAuthService _authService = authService;
+
+        #region Signup
+        [HttpGet("signup")]
         public IActionResult SignUp()
         {
             return View();
         }
 
-        [HttpPost]
-        [Route("signup")]
-        public IActionResult SignUp(SignUpForm form)
+        [HttpPost("signup")]
+        public async Task<IActionResult> SignUp(SignUpForm form)
         {
             if (!ModelState.IsValid)
                 return View(form);
 
-            // Här ska _authService.SignUp(form) callas och account ska skapas
+            var user = new AppUser
+            {
+                UserName = form.Email,
+                FirstName = form.FirstName,
+                LastName = form.LastName,
+                Email = form.Email
+            };
 
-            //redirect till signin så länge, om alla fält är ifyllda
-            return RedirectToAction("SignIn");
+            var result = await _authService.SignUpAsync(user, form.Password);
+
+            if (!result.Succeeded)
+                return View(form);
+
+            return RedirectToAction("SignIn", "Auth");
         }
+        #endregion
 
-        [Route("signin")]
+        #region Signin
+        [HttpGet("signin")]
         public IActionResult SignIn()
         {
             return View();
         }
 
-        [Route("signin")]
-        [HttpPost]
-        public IActionResult SignIn(SignInForm form)
+        [HttpPost("signin")]
+        public async Task<IActionResult> SignIn(SignInForm form, string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
+
             if (!ModelState.IsValid)
                 return View(form);
 
-            //här ska _authService.SignIn(form) callas kolla validera inloggning
+            var result = await _authService.SignInAsync(form.Email, form.Password);
 
-            //redirect till dashboard så länge
-            return RedirectToAction("Index", "Dashboard");
+            if (!result.Succeeded)
+            {
+                ViewBag.ErrorMessage = "Invalid credentials";
+                return View(form);
+            }
+
+            return LocalRedirect(ViewBag.ReturnUrl);
         }
+        #endregion
+
+        #region SignOut
+        [HttpGet("signout")]
+        public new async Task<IActionResult> SignOut()
+        {
+            await _authService.SignOutAsync();
+
+            return RedirectToAction("SignIn", "Auth");
+        }
+        #endregion
     }
 }
