@@ -1,1 +1,23 @@
-﻿<div>INBOX</div>
+﻿@model InboxViewModel
+
+@await Html.PartialAsync("Partials/_InboxSidebarIcons")
+
+
+<div class="inbox-layout">
+    <div class="inbox-sidebar-container">
+        @Html.Partial("Partials/_InboxSidebar")
+    </div>
+
+    <div class="inbox-main-container">
+        <div class="inbox-message-box">
+            <button id="newMessageButton" class="btn btn-primary">+ Ny e-post</button>
+            <div class="inbox-message-list" id="messageListContainer">
+                @Html.Partial("Partials/_InboxMessageList", Model.Messages)
+            </div>
+            <div class="inbox-message-detail" id="messageDetailContainer">
+                @Html.Partial("Partials/_InboxMessageDetails", Model.SelectedMessage)
+            </div>
+        </div>
+    </div>
+</div>
+
