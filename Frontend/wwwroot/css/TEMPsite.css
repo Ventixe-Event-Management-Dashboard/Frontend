@@ -1,0 +1,234 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    /* Typogragpy */
+    --font-standard: "Inter", sans-serif;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semi-bold: 600;
+    --font-weight-bold: 700;
+    --font-size-body: 16px;
+    --font-size-h1: 32px;
+    --font-size-h2: 28px;
+    --font-size-h3: 26px;
+    --font-size-h4: 24px;
+    --font-size-h5: 22px;
+    --font-size-h6: 20px;
+    /* Colors */
+    --secondary-110: #1c2346;
+    --secondary-100: #37437d;
+    --secondary-90: #5562a2;
+    --secondary-70: #707dbf;
+    --secondary-60: #abb4dd;
+    --secondary-50: #d3daf9;
+    --primary-100: #f26cf9;
+    --primary-90: #f589fa;
+    --primary-50: #fcd3fe;
+    --primary-40: #fce2fe;
+    --primary-30: #fdedfe;
+    --yellow-100: #ffca39;
+    --yellow-90: #ffefc3;
+    --grey-10: #ffffff;
+    --grey-20: #f7f7f7;
+    --grey-30: #ededed;
+    --grey-40: #e0e0e1;
+    --grey-50: #c3c3c4;
+    --grey-60: #9f9fa1;
+    --grey-70: #777779;
+    --grey-80: #636365;
+    --grey-90: #434345;
+    --grey-100: #1e1e20;
+    --cool-grey-10: #eeefff;
+    --cool-grey-20: #e4e5f5;
+    --cool-grey-30: #dddeed;
+    --cool-grey-40: #d1d2e0;
+    --cool-grey-50: #b0b1bd;
+    --cool-grey-60: #8f8f99;
+    --cool-grey-70: #72737a;
+    --cool-grey-80: #56565c;
+    --cool-grey-90: #39393d;
+    --cool-grey-100: #131314;
+    --red: red;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: var(--font-standard);
+}
+
+h1,
+.h1 {
+    font-size: var(--font-size-h1);
+}
+
+h2,
+.h2 {
+    font-size: var(--font-size-h2);
+}
+
+h3,
+.h3 {
+    font-size: var(--font-size-h3);
+}
+
+h4,
+.h4 {
+    font-size: var(--font-size-h4);
+}
+
+h5,
+.h5 {
+    font-size: var(--font-size-h5);
+}
+
+h6,
+.h6 {
+    font-size: var(--font-size-h6);
+}
+
+.text-medium {
+    font-weight: var(--font-weight-medium);
+}
+
+.text-semi-bold {
+    font-weight: var(--font-weight-semi-bold);
+}
+
+.text-bold {
+    font-weight: var(--font-weight-bold);
+}
+
+html,
+body {
+    margin: 0;
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-normal);
+    font-family: var(--font-standard);
+}
+
+a {
+    text-decoration: none;
+}
+
+.inbox-layout {
+    display: flex;
+    
+    height: 100vh;
+    background-color: #f8f8f8;
+    overflow: hidden;
+}
+
+.inbox-sidebar-container {
+    width: 179px;
+    background-color: #ece9fd;
+    padding: 1rem;
+    border-radius: 1.5rem;
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: fit-content;
+}
+
+.inbox-sidebar__nav-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.inbox-sidebar__nav-item {
+    overflow: hidden;
+}
+
+.inbox-sidebar__link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    text-decoration: none;
+    color: #5c4e91;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.inbox-sidebar__link:hover {
+    background-color: #e0d7fb;
+    color: #3b2b78;
+}
+
+.inbox-sidebar__link.active {
+    background-color: #f26ef9;
+    color: white;
+
+}
+
+.inbox-sidebar__link.active svg use {
+    fill: white;
+}
+
+.inbox-main-container {
+    flex: 1;
+    padding: 1rem 1.5rem 1rem 0;
+    display: flex;
+    align-items: flex-start;
+}
+
+.inbox-message-box {
+    display: flex;
+    background-color: white;
+    border-radius: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    overflow: hidden;
+    height: calc(100vh - 2rem);
+    width: 100%;
+}
+
+.inbox-message-list {
+    flex: 1;
+    border-right: 1px solid #eee;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.inbox-message-detail {
+    flex: 2;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .inbox-message-box {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .inbox-message-list {
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+}
+
+.message-item--active {
+    background-color: #f6f4ff;
+    border-radius: 1rem;
+}

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<MessageItem>
+
+<div class="message-list">
+    @if (!Model.Any())
+    {
+        <p>Inga meddelanden här.</p>
+    }
+    else
+    {
+        foreach (var message in Model)
+        {
+            <div class="message-item @(Model.First() == message ? "message-item--active" : "")" data-id="@message.Id">
+                <div class="message-item__header">
+                    <div class="message-item__avatar">
+                        @message.Sender.Substring(0, 2).ToUpper()
+                    </div>
+                    <div class="message-item__info">
+                        <div class="message-item__top">
+                            <span class="message-item__sender">@message.Sender</span>
+                            <span class="message-item__time">@message.SentAt.ToString("hh:mm tt")</span>
+                        </div>
+                        <div class="message-item__subject">@message.Subject</div>
+                        <div class="message-item__preview">@message.Preview</div>
+                    </div>
+                    <div class="message-item__label">@message.Label</div>
+                </div>
+            </div>
+        }
+    }
+</div>

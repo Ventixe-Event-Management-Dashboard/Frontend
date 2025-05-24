@@ -1,0 +1,32 @@
+﻿@{
+    var inboxSidebarLinks = new List<dynamic>
+    {
+        new { Title = "Inbox", Category = "Inbox", Icon = "icon-sidebar-inbox" },
+        new { Title = "Starred", Category = "Starred", Icon = "icon-sidebar-starred" },
+        new { Title = "Sent", Category = "Sent", Icon = "icon-sidebar-sent" },
+        new { Title = "Draft", Category = "Drafts", Icon = "icon-sidebar-drafts" },
+        new { Title = "Spam", Category = "Spam", Icon = "icon-sidebar-spam" },
+        new { Title = "Trash", Category = "Trash", Icon = "icon-sidebar-trash" },
+    };
+}
+<aside class="inbox-sidebar">
+    <nav class="inbox-sidebar__nav">
+        <ul class="inbox-sidebar__nav-list">
+            @foreach (var link in inboxSidebarLinks)
+            {
+                <li class="inbox-sidebar__nav-item">
+                    <a href="/Inbox/Folder?folder=@link.Category" class="inbox-sidebar__link">
+                        <svg width="20" height="20">
+                            <use href="#@link.Icon" />
+                        </svg>
+                        <span class="inbox-sidebar__text">@link.Title</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</aside>
+
+
+
+
