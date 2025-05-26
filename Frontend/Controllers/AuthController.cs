@@ -1,8 +1,9 @@
-﻿using Authentication.Entities;
-using Authentication.Services;
+﻿using Authentication.Services;
 using Frontend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Contracts;
+using System.Security.Claims;
 
 namespace Frontend.Controllers
 {
@@ -24,20 +25,37 @@ namespace Frontend.Controllers
             if (!ModelState.IsValid)
                 return View(form);
 
-            var user = new AppUser
+            var registerDto = new RegisterDto
             {
-                UserName = form.Email,
                 FirstName = form.FirstName,
                 LastName = form.LastName,
-                Email = form.Email
+                Email = form.Email,
+                Password = form.Password,
             };
 
-            var result = await _authService.SignUpAsync(user, form.Password);
+            var result = await _authService.SignUpAsync(registerDto);
 
             if (!result.Succeeded)
                 return View(form);
 
-            return RedirectToAction("SignIn", "Auth");
+            var token = await _authService.SignInAsync(new SignInDto
+            {
+                Email = form.Email,
+                Password = form.Password
+            });
+
+            if (token != null)
+            {
+                Response.Cookies.Append("jwt", token, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTime.UtcNow.AddHours(1)
+                });
+            }
+
+            return RedirectToAction("Index", "Dashboard");
         }
         #endregion
 
@@ -49,20 +67,37 @@ namespace Frontend.Controllers
         }
 
         [HttpPost("signin")]
-        public async Task<IActionResult> SignIn(SignInForm form, string returnUrl)
+        public async Task<IActionResult> SignIn(SignInForm signInForm, string? returnUrl = null)
         {
             ViewBag.ReturnUrl = returnUrl;
 
             if (!ModelState.IsValid)
-                return View(form);
+                return View(signInForm);
 
-            var result = await _authService.SignInAsync(form.Email, form.Password);
+            var signInDto = new SignInDto
+            {
+                Email = signInForm.Email,
+                Password = signInForm.Password,
+            };
 
-            if (!result.Succeeded)
+            var token = await _authService.SignInAsync(signInDto);
+
+            if (token == null)
             {
                 ViewBag.ErrorMessage = "Invalid credentials";
-                return View(form);
+                return View(signInForm);
             }
+
+            Response.Cookies.Append("jwt", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTime.UtcNow.AddHours(1)
+            });
+
+            if (string.IsNullOrWhiteSpace(returnUrl) || returnUrl == "/signin")
+                return RedirectToAction("Index", "Dashboard");
 
             return LocalRedirect(ViewBag.ReturnUrl);
         }
@@ -74,8 +109,30 @@ namespace Frontend.Controllers
         {
             await _authService.SignOutAsync();
 
+            Response.Cookies.Delete("jwt");
+
             return RedirectToAction("SignIn", "Auth");
         }
+
+
         #endregion
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> Delete()
+        {
+            var user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrWhiteSpace(user))
+                return Unauthorized();
+
+            var result = await _authService.DeleteByIdAsync(user);
+
+            if (!result.Succeeded)
+                return BadRequest("Failed to delete account.");
+
+            await _authService.SignOutAsync();
+
+            return RedirectToAction("Signup", "Auth");
+        }
     }
 }
