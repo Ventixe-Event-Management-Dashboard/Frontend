@@ -1,12 +1,13 @@
-﻿using Authentication.Entities;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Shared.Contracts;
 
 namespace Authentication.Services
 {
     public interface IAuthService
     {
-        Task<SignInResult> SignInAsync(string email, string password);
+        Task<string?> SignInAsync(SignInDto signInDto);
         Task SignOutAsync();
-        Task<IdentityResult> SignUpAsync(AppUser user, string password);
+        Task<IdentityResult> SignUpAsync(RegisterDto registerDto);
+        Task<IdentityResult> DeleteByIdAsync(string id);
     }
 }
