@@ -1,6 +1,10 @@
 ﻿@using Frontend.Controllers
 @using Frontend.Models
+@inject UserContextService UserContextService 
+
 @{
+    var user = await UserContextService.GetCurrentUserAsync();
+
     var sidebarLinks = new List<SidebarLink>
     {
         new SidebarLink { Title = "Dashboard", Url = "/dashboard", Icon = "icon-dashboard" },
@@ -17,6 +21,8 @@
     ViewData["SidebarLinks"] = sidebarLinks;
 }
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,21 +30,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
         @(string.IsNullOrEmpty(ViewData["Title"] as string) ? "Ventixe-Event Management" : ViewData["Title"] + " - Ventixe-Event Management")
-        @* @ViewData["Title"] - Ventixe-Event Management *@
     </title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivt.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://kit.fontawesome.com/a576612222.css" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/TEMPsite.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/EditUserProfile.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Frontend.styles.css" asp-append-version="true" />
 </head>
 <body>
     <partial name="_Icons" />
 
     <div class="wrapper">
-        <partial name="_Header" />
-        @await Html.PartialAsync("_ViewMobileMenu", ViewData["SidebarLinks"] as IEnumerable<SidebarLink>)
+        @await Html.PartialAsync("_Header", user)
+        @await Html.PartialAsync("_ViewMobileMenu", ViewData["SidebarLinks"] as IEnumerable<SidebarLink>) 
         <partial name="_Sidebar" />
 
         <main class="main">

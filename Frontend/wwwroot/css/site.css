@@ -502,7 +502,6 @@ a {
     }
 }
 
-
 /* SIGNUP FORM */
 .signup-form__wrapper {
     min-height: 100vh;
@@ -617,7 +616,6 @@ a {
   font-size: 12px;
 }
 
-
 .signin-form__input {
     padding: 0.8rem 1rem;
     border-radius: 0.5rem;
@@ -666,7 +664,6 @@ a {
         text-decoration: underline;
     }
 
-
 .mobile__menu-overlay {
     position: fixed;
     inset: 0;
@@ -694,7 +691,6 @@ a {
     flex-direction: column;
     gap: 2rem;
 }
-
 
 .mobile__menu-user {
     display: flex;
@@ -756,7 +752,6 @@ a {
         font-weight: var(--font-weight-semi-bold);
     }
 
-
 .mobile__menu-footer {
     display: flex;
     flex-direction: column;
@@ -804,6 +799,3 @@ a {
         display: none !important;
     }
 }
-
-
-

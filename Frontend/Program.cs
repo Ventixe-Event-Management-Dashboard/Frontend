@@ -14,6 +14,7 @@ builder.Services.AddControllersWithViews(x =>
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<UserContextService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -23,7 +24,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
 
 builder.Services.AddHttpClient("UserProfileService", x =>
 {
-    x.BaseAddress = new Uri("https://userprofileservice20250526122221-hucuazd2dbgqhee6.swedencentral-01.azurewebsites.net/");
+    x.BaseAddress = new Uri("https://userprofileservice20250526122221-hucuazd2dbgqhee6.swedencentral-01.azurewebsites.net/api/");
 });
 
 builder.Services.AddAuthentication("Bearer")
@@ -53,7 +54,6 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.Cookie.IsEssential = true;
     x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
-
 
 var app = builder.Build();
 
