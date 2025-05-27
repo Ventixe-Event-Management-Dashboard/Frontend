@@ -1,33 +1,17 @@
 ﻿@model MessageItem
 
-@if (Model != null)
-{
-    <div class="message-detail">
-        <div class="message-detail__header">
-            <h2>@Model.Subject</h2>
-            <div class="message-detail__meta">
-                <div class="message-detail__sender">
-                    <div class="message-detail__avatar">@Model.Sender.Substring(0, 2).ToUpper()</div>
-                    <div>
-                        <div class="message-detail__sender-name">@Model.Sender</div>
-                        <div class="message-detail__sender-email">support@harmonyaudio.com</div>
-                    </div>
-                </div>
-                <div class="message-detail__timestamp">@Model.SentAt.ToString("MMMM dd, yyyy hh:mm tt")</div>
-            </div>
-        </div>
+<div class="message-details">
+    <h2>@Model.Subject</h2>
 
-        <div class="message-detail__content">
-            @Html.Raw(Model.Content)
-        </div>
-
-        <div class="message-detail__actions">
-            <button class="btn">↩ Reply</button>
-            <button class="btn">⤴ Forward</button>
-        </div>
+    <div class="message-meta">
+        <strong>Från:</strong> @Model.Sender <br />
+        <strong>Till:</strong> @Model.Receiver <br />
+        <strong>Skickat:</strong> @Model.SentAt.ToString("yyyy-MM-dd HH:mm")
     </div>
-}
-else
-{
-    <p>Välj ett meddelande...</p>
-}
+
+    <hr />
+
+    <div class="message-content">
+        <p>@Model.Content</p>
+    </div>
+</div>

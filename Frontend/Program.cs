@@ -14,9 +14,9 @@ builder.Services.AddControllersWithViews(x =>
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
-builder.Services.AddScoped<UserContextService>();
 
-builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<ApplicationDbContext>(x =>
+    x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -26,6 +26,9 @@ builder.Services.AddHttpClient("UserProfileService", x =>
 {
     x.BaseAddress = new Uri("https://userprofileservice20250526122221-hucuazd2dbgqhee6.swedencentral-01.azurewebsites.net/api/");
 });
+
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>

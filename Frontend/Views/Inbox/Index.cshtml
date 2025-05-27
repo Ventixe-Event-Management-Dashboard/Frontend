@@ -1,23 +1,44 @@
 ﻿@model InboxViewModel
-
-@await Html.PartialAsync("Partials/_InboxSidebarIcons")
-
+@{
+    ViewBag.CurrentFolder = Model.CurrentFolder;
+}
 
 <div class="inbox-layout">
-    <div class="inbox-sidebar-container">
-        @Html.Partial("Partials/_InboxSidebar")
+
+    <!-- 🟪 Sidopanel -->
+    <div class="inbox__sidebar">
+        @await Html.PartialAsync("Partials/_InboxSidebar", Model.CurrentFolder)
+
+        <!-- 🟣 Flyttad compose-knapp -->
+        <div class="inbox__compose-wrapper">
+            <button id="openComposeBtn" class="inbox__compose-button">Skriv nytt meddelande</button>
+        </div>
     </div>
 
-    <div class="inbox-main-container">
-        <div class="inbox-message-box">
-            <button id="newMessageButton" class="btn btn-primary">+ Ny e-post</button>
-            <div class="inbox-message-list" id="messageListContainer">
-                @Html.Partial("Partials/_InboxMessageList", Model.Messages)
-            </div>
-            <div class="inbox-message-detail" id="messageDetailContainer">
-                @Html.Partial("Partials/_InboxMessageDetails", Model.SelectedMessage)
-            </div>
-        </div>
+    <!-- 🟨 Meddelandelista -->
+    <div class="inbox__message-list">
+        @await Html.PartialAsync("Partials/_InboxMessageList", Model.Messages)
+    </div>
+
+    <!-- 🟩 Detaljvy -->
+    <div class="inbox__message-details">
+        @if (Model.SelectedMessage != null)
+        {
+            @await Html.PartialAsync("Partials/_InboxMessageDetails", Model.SelectedMessage)
+        }
+        else
+        {
+            <p class="inbox__placeholder">Välj ett meddelande för att visa detaljer.</p>
+        }
     </div>
 </div>
 
+<!-- ✉️ Modal för att skriva nytt meddelande -->
+<div id="composeModal" style="display:none;" class="inbox__compose-modal">
+    <div class="inbox__compose-modal-content">
+        <button onclick="document.getElementById('composeModal').style.display='none'" class="inbox__close-modal">×</button>
+        <div id="composeContent">
+            <!-- Här laddas formuläret via AJAX -->
+        </div>
+    </div>
+</div>
