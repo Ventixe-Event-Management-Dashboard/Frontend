@@ -1,0 +1,27 @@
+﻿@model SendMessageViewModel
+
+<form id="composeForm" class="inbox__compose-form">
+    <div class="inbox__compose-field">
+        <label for="receiverId" class="inbox__compose-label">Mottagare:</label>
+        <select name="receiverId" id="receiverId" required class="inbox__compose-input">
+            @foreach (var recipient in Model.Recipients)
+            {
+                <option value="@recipient.Id">@recipient.FullName</option>
+            }
+        </select>
+    </div>
+
+    <div class="inbox__compose-field">
+        <label for="subject" class="inbox__compose-label">Ämne:</label>
+        <input type="text" id="subject" name="subject" required class="inbox__compose-input" />
+    </div>
+
+    <div class="inbox__compose-field">
+        <label for="content" class="inbox__compose-label">Meddelande:</label>
+        <textarea id="content" name="content" rows="5" required class="inbox__compose-input"></textarea>
+    </div>
+
+    <div class="inbox__compose-actions">
+        <button type="submit" class="inbox__compose-button">Skicka</button>
+    </div>
+</form>

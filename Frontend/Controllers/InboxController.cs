@@ -1,83 +1,157 @@
 ﻿using Frontend.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
+using System.Text.Json;
+
 namespace Frontend.Controllers
 {
-    public class InboxController : Controller
+    public class InboxController(HttpClient httpClient, IHttpContextAccessor httpContextAccessor) : Controller
     {
-        public IActionResult Index()
-        {
-            ViewData["ActivePage"] = "inbox";
+        private readonly HttpClient _httpClient = httpClient;
+        private readonly IHttpContextAccessor _contextAccessor = httpContextAccessor;
 
-            var messages = GetMockMessages();
+        private void AddJwtFromCookie()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+
+            var token = _contextAccessor.HttpContext?.Request.Cookies["jwt"];
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+            }
+        }
+
+        public async Task<IActionResult> Index(string folder = "inbox")
+        {
+            AddJwtFromCookie();
+
+            var endpoint = folder.ToLower() == "sent"
+                ? "api/message/sent"
+                : "api/message/inbox";
+
+            var response = await _httpClient.GetAsync($"https://ventixeinbox.azurewebsites.net/{endpoint}");
+
+            if (!response.IsSuccessStatusCode)
+                return Unauthorized();
+
+            var json = await response.Content.ReadAsStringAsync();
+            var messages = JsonSerializer.Deserialize<List<MessageItem>>(json, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
 
             var viewModel = new InboxViewModel
             {
-                Messages = messages,
-                SelectedMessage = messages.First()
-            };
-
-            return View(viewModel);
-        }
-
-        public IActionResult GetMessageDetail(int id)
-        {
-            var message = GetMockMessages().FirstOrDefault(m => m.Id == id);
-            if (message == null) return NotFound();
-
-            return PartialView("Partials/_InboxMessageDetails", message);
-        }
-
-        public IActionResult Folder(string folder)
-        {
-            var messages = GetMockMessages()
-                .Where(m => m.Label.Equals(folder, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-
-            var viewModel = new InboxViewModel
-            {
-                Messages = messages,
-                SelectedMessage = messages.FirstOrDefault()
+                Messages = messages ?? [],
+                CurrentFolder = folder
             };
 
             return View("Index", viewModel);
         }
 
-        private List<MessageItem> GetMockMessages()
+        public async Task<IActionResult> ViewMessage(Guid id, string folder = "inbox")
         {
-            return new List<MessageItem>
+            AddJwtFromCookie();
+
+            // 1. Hämta lista
+            var folderEndpoint = folder.ToLower() == "sent"
+                ? "api/message/sent"
+                : "api/message/inbox";
+
+            var messagesResponse = await _httpClient.GetAsync($"https://ventixeinbox.azurewebsites.net/{folderEndpoint}");
+            var messagesJson = await messagesResponse.Content.ReadAsStringAsync();
+            var messages = JsonSerializer.Deserialize<List<MessageItem>>(messagesJson, new JsonSerializerOptions
             {
-                new MessageItem
-                {
-                    Id = 1,
-                    Sender = "ANTON",
-                    Subject = "TESTING",
-                    Preview = "TESTINGTESTINGTESTING",
-                    Content = "TESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTING",
-                    SentAt = DateTime.Now.AddHours(-2),
-                    Label = "Sent"
-                },
-                new MessageItem
-                {
-                    Id = 2,
-                    Sender = "WALTER",
-                    Subject = "TESTINGTESTING",
-                    Preview = "TESTINGTESTINGTESTING",
-                    Content = "TESTINGTESTINGTESTINGTESTING",
-                    SentAt = DateTime.Now.AddHours(-5),
-                    Label = "Inbox"
-                },
-                new MessageItem()
-                {
-                    Id = 3,
-                    Sender = "TESTING",
-                    Subject = "TESTERRRRR",
-                    Preview = "GOTT E DEEEE",
-                    Content = "testing testing testing testing testing testing testing testing",
-                    SentAt = DateTime.Now.AddHours(-2),
-                    Label = "Sent"
-                }
+                PropertyNameCaseInsensitive = true
+            }) ?? [];
+
+            // 2. Hämta enskilt meddelande
+            var detailResponse = await _httpClient.GetAsync($"https://ventixeinbox.azurewebsites.net/api/message/{id}");
+            if (!detailResponse.IsSuccessStatusCode)
+                return RedirectToAction("Index", new { folder });
+
+            var detailJson = await detailResponse.Content.ReadAsStringAsync();
+            var selected = JsonSerializer.Deserialize<MessageItem>(detailJson, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            var viewModel = new InboxViewModel
+            {
+                Messages = messages,
+                SelectedMessage = selected,
+                CurrentFolder = folder
             };
+
+            return View("Index", viewModel);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Compose()
+        {
+            AddJwtFromCookie();
+
+            var response = await _httpClient.GetAsync("https://ventixeinbox.azurewebsites.net/api/message/recipients");
+
+            if (!response.IsSuccessStatusCode)
+                return Unauthorized();
+
+            var json = await response.Content.ReadAsStringAsync();
+            var users = JsonSerializer.Deserialize<List<UserDto>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            var model = new SendMessageViewModel
+            {
+                Recipients = users ?? []
+            };
+
+            return View("Compose", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Compose([FromBody] SendMessageViewModel model)
+        {
+            AddJwtFromCookie();
+
+            var payload = new
+            {
+                receiverId = model.ReceiverId,
+                subject = model.Subject,
+                content = model.Content
+            };
+
+            var response = await _httpClient.PostAsJsonAsync("https://ventixeinbox.azurewebsites.net/api/message", payload);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Fel från Azure-backend: " + error);
+                return StatusCode((int)response.StatusCode, error);
+            }
+
+            return Ok("Meddelande skickat!");
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetComposeForm()
+        {
+            AddJwtFromCookie();
+
+            var response = await _httpClient.GetAsync("https://ventixeinbox.azurewebsites.net/api/message/recipients");
+
+            if (!response.IsSuccessStatusCode)
+                return Unauthorized();
+
+            var json = await response.Content.ReadAsStringAsync();
+            var users = JsonSerializer.Deserialize<List<UserDto>>(json, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            var model = new SendMessageViewModel
+            {
+                Recipients = users ?? []
+            };
+
+            return PartialView("Partials/_ComposeForm", model);
         }
     }
 }
-

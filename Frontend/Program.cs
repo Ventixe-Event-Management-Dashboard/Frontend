@@ -23,7 +23,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
 
 builder.Services.AddHttpClient("UserProfileService", x =>
 {
-    x.BaseAddress = new Uri("https://userprofileservice20250526122221-hucuazd2dbgqhee6.swedencentral-01.azurewebsites.net/");
+    x.BaseAddress = new Uri("https://userprofileservice20250526122221-hucuazd2dbgqhee6.swedencentral-01.azurewebsites.net/api/");
 });
 
 builder.Services.AddAuthentication("Bearer")
@@ -54,7 +54,8 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
-
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 app.UseHsts();

@@ -127,108 +127,139 @@ a {
 }
 
 .inbox-layout {
-    display: flex;
-    
+    display: grid;
+    grid-template-columns: 180px 1fr 2fr;
+    grid-template-areas:
+        "sidebar header header"
+        "sidebar list details";
+    grid-template-rows: auto 1fr;
     height: 100vh;
-    background-color: #f8f8f8;
+    gap: 1rem;
+    background-color: var(--grey-20);
+    border-radius: 1.5rem;
     overflow: hidden;
 }
 
-.inbox-sidebar-container {
-    width: 179px;
-    background-color: #ece9fd;
-    padding: 1rem;
+.inbox__sidebar {
+    grid-area: sidebar;
+    background-color:var(--grey-10);
     border-radius: 1.5rem;
-    margin: 1rem;
+    padding: 1.5rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    height: fit-content;
+    justify-content: space-between;
 }
 
-.inbox-sidebar__nav-list {
+.inbox-sidebar__list {
     list-style: none;
     padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-.inbox-sidebar__nav-item {
-    overflow: hidden;
-}
-
-.inbox-sidebar__link {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    border-radius: 1rem;
-    text-decoration: none;
-    color: #5c4e91;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    font-size: 0.95rem;
-    font-weight: 500;
-}
-
-.inbox-sidebar__link:hover {
-    background-color: #e0d7fb;
-    color: #3b2b78;
-}
-
-.inbox-sidebar__link.active {
-    background-color: #f26ef9;
-    color: white;
-
-}
-
-.inbox-sidebar__link.active svg use {
-    fill: white;
-}
-
-.inbox-main-container {
-    flex: 1;
-    padding: 1rem 1.5rem 1rem 0;
-    display: flex;
-    align-items: flex-start;
-}
-
-.inbox-message-box {
-    display: flex;
-    background-color: white;
-    border-radius: 1.5rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    overflow: hidden;
-    height: calc(100vh - 2rem);
+.inbox-sidebar__item {
     width: 100%;
 }
 
-.inbox-message-list {
-    flex: 1;
-    border-right: 1px solid #eee;
-    padding: 1.5rem;
-    overflow-y: auto;
-}
-
-.inbox-message-detail {
-    flex: 2;
-    padding: 2rem;
-    overflow-y: auto;
-}
-
-@media (max-width: 768px) {
-    .inbox-message-box {
-        flex-direction: column;
-        height: auto;
-    }
-
-    .inbox-message-list {
-        border-right: none;
-        border-bottom: 1px solid #eee;
-    }
-}
-
-.message-item--active {
-    background-color: #f6f4ff;
+.inbox-sidebar__link {
+    display: block;
+    padding: 0.75rem 1rem;
     border-radius: 1rem;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.inbox-sidebar__item--active .inbox-sidebar__link {
+    background-color: var(--primary-90);
+    color: white;
+}
+
+.inbox__compose-button {
+    background-color: var(--primary-100);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+    .inbox__compose-button:hover {
+        background-color: var(--primary-90);
+    }
+
+.inbox__header {
+    grid-area: header;
+    display: none;
+}
+
+.inbox__message-list {
+    grid-area: list;
+    list-style: none;
+    margin: 0;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: var(--grey-20);
+    overflow-y: auto;
+    border-radius: 1rem;
+    height: 100%;
+}
+
+.inbox__message-item {
+    background-color: var(--grey-10);
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    transition: background-color 0.2s ease;
+}
+
+    .inbox__message-item a {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        color: inherit;
+        text-decoration: none;
+        gap: 0.25rem;
+    }
+
+    .inbox__message-item:hover {
+        background-color: var(--cool-grey-10);
+    }
+
+.inbox__message-sender {
+    font-weight: 600;
+}
+
+.inbox__message-subject {
+    font-weight: 500;
+}
+
+.inbox__message-preview {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.inbox__message-date {
+    font-size: 12px;
+    margin-top: 0.5rem;
+    text-align: right;
+}
+
+.inbox__message-details {
+    grid-area: details;
+    padding: 1.5rem;
+    background-color: var(--grey-10);
+    border-radius: 1rem;
+    overflow-y: auto;
+    height: 100%;
 }
