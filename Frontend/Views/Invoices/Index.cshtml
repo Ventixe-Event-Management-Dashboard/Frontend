@@ -1,1 +1,123 @@
-﻿<div>INVOICES</div>
+﻿@model Frontend.Models.InvoiceModel.InvoiceViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var editMode = Context.Request.Query["edit"] == "true";
+}
+
+<div class="invoice__page">
+    <div class="stats__container">
+        <div class="stat__box">Paid <br /><strong>@Model.Invoices.Count(i => i.IsPaid)</strong></div>
+        <div class="stat__box">Unpaid <br /><strong>@Model.Invoices.Count(i => !i.IsPaid)</strong></div>
+        <div class="stat__box">Overdue <br /><strong>@Model.Invoices.Count(i => !i.IsPaid && i.Date < DateTime.Now)</strong></div>
+    </div>
+
+    <div class="invoice__main-content">
+        <div class="invoice__list">
+            @foreach (var invoice in Model.Invoices)
+            {
+                <div class="invoice__card @(Model.SelectedInvoice?.InvoiceId == invoice.Id ? "active" : "")">
+                    <a href="@Url.Action("Index", new { id = invoice.Id })">
+                        <strong class="invoice__id">@invoice.Id</strong>
+                        <span class="invoice__date">@invoice.Date.ToString("yyyy-MM-dd HH:mm")</span>
+                        <span>$@invoice.Amount</span>
+                        <span class="invoice__status @(invoice.IsPaid ? "paid" : "unpaid")">@(invoice.IsPaid ? "Paid" : "Unpaid")</span>
+                    </a>
+                </div>
+            }
+        </div>
+
+        <div class="invoice__details">
+            @if (Model.SelectedInvoice != null)
+            {
+                <div class="invoice__summary">
+                    <h2>#@Model.SelectedInvoice.InvoiceId</h2>
+                    <p><strong>Issued:</strong> @Model.SelectedInvoice.IssueDate.ToString("yyyy-MM-dd HH:mm")</p>
+                    <p><strong>Due:</strong> @Model.SelectedInvoice.DueDate.ToString("yyyy-MM-dd HH:mm")</p>
+
+                    <form method="post" asp-action="UpdateInvoice">
+                        <input type="hidden" name="Id" value="@Model.SelectedInvoice.InvoiceId" />
+
+                        <div class="invoice__parties">
+                            <div class="invoice__party">
+                                <h3>Bill from</h3>
+                                @if (editMode)
+                                {
+                                    <p><input type="text" name="BillFormName" value="@Model.SelectedInvoice.BillFormName" /></p>
+                                    <p><input type="text" name="BillFormAddress" value="@Model.SelectedInvoice.BillFormAddress" /></p>
+                                    <p><input type="email" name="BillFormEmail" value="@Model.SelectedInvoice.BillFormEmail" /></p>
+                                    <p><input type="text" name="BillFormPhone" value="@Model.SelectedInvoice.BillFormPhone" /></p>
+                                }
+                                else
+                                {
+                                    <p>@Model.SelectedInvoice.BillFormName</p>
+                                    <p>@Model.SelectedInvoice.BillFormAddress</p>
+                                    <p>@Model.SelectedInvoice.BillFormEmail</p>
+                                    <p>@Model.SelectedInvoice.BillFormPhone</p>
+                                }
+                            </div>
+
+                            <div class="invoice__party">
+                                <h3>Bill to</h3>
+                                @if (editMode)
+                                {
+                                    <p><input type="text" name="BillToName" value="@Model.SelectedInvoice.BillToName" /></p>
+                                    <p><input type="text" name="BillToAddress" value="@Model.SelectedInvoice.BillToAddress" /></p>
+                                    <p><input type="email" name="BillToEmail" value="@Model.SelectedInvoice.BillToEmail" /></p>
+                                    <p><input type="text" name="BillToPhone" value="@Model.SelectedInvoice.BillToPhone" /></p>
+                                }
+                                else
+                                {
+                                    <p>@Model.SelectedInvoice.BillToName</p>
+                                    <p>@Model.SelectedInvoice.BillToAddress</p>
+                                    <p>@Model.SelectedInvoice.BillToEmail</p>
+                                    <p>@Model.SelectedInvoice.BillToPhone</p>
+                                }
+                            </div>
+                        </div>
+
+                        <h3>Ticket Details</h3>
+                        <table class="invoice__table">
+                            <thead>
+                                <tr><th>Category</th><th>Price</th><th>Qty</th><th>Amount</th></tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var ticket in Model.SelectedInvoice.Items)
+                                {
+                                    <tr>
+                                        <td>@ticket.Category</td>
+                                        <td>$@ticket.Price</td>
+                                        <td>@ticket.Quantity</td>
+                                        <td>$@ticket.Total</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <div class="invoice__totals">
+                            <p><strong>Tax:</strong> $@Model.SelectedInvoice.Tax</p>
+                            <p><strong>Fee:</strong> $@Model.SelectedInvoice.Fee</p>
+                            <p><strong>Total:</strong> $@(Model.SelectedInvoice.Tax + Model.SelectedInvoice.Fee + Model.SelectedInvoice.Items.Sum(t => t.Total))</p>
+                        </div>
+
+                        <div class="invoice__actions">
+                            @if (editMode)
+                            {
+                                <button type="submit" class="invoice__btn invoice__btn--edit">Save</button>
+                            }
+                            else
+                            {
+                                <a class="invoice__btn invoice__btn--edit" href="@Url.Action("Index", new { id = Model.SelectedInvoice.InvoiceId, edit = true })">Edit invoice</a>
+                            }
+
+                            <form method="post" asp-action="DeleteInvoice">
+                                <input type="hidden" name="id" value="@Model.SelectedInvoice.InvoiceId" />
+                                <button type="submit" class="invoice__btn invoice__btn--delete">Delete invoice</button>
+                            </form>
+                        </div>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+</div>
