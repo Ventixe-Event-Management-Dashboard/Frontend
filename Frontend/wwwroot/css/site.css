@@ -799,3 +799,52 @@ a {
         display: none !important;
     }
 }
+
+/*------------------------*/
+.dashboard-card {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px 24px;
+    margin: 16px 0;
+    transition: box-shadow 0.3s ease;
+}
+
+    .dashboard-card:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+
+.dashboard-icon {
+    width: 48px;
+    height: 48px;
+    background-color: #f0f4f8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    font-size: 24px;
+    color: #4a5568;
+}
+
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 4px;
+}
+
+.dashboard-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1a202c;
+}
+
+

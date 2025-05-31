@@ -1,0 +1,37 @@
+﻿@model Frontend.Models.Event.EventViewModel
+
+<form method="get" asp-action="Index" class="d-flex justify-content-between align-items-center mb-4">
+
+    <div class="d-flex gap-2">
+        <input type="text" name="searchQuery" value="@Model.SearchQuery" placeholder="Search event..." class="form-control" />
+
+        <select name="selectedCategory" class="form-select" onchange=" this.form.submit()">
+            <option value="">Alla kategorier</option>
+            <option value="Art & Design" selected="@(Model.SelectedCategory == "Art & Design")">Art & Design</option>
+            <option value="Fashion" selected="@(Model.SelectedCategory == "Fashion")">Fashion</option>
+            <option value="Music" selected="@(Model.SelectedCategory == "Music")">Music</option>
+            <option value="Sport" selected="@(Model.SelectedCategory == "Sport")">Sport</option>
+        </select>
+
+        <select name="selectedTimeRange" class="form-select" onchange=" this.form.submit()">
+            <option value="">All</option>
+            <option value="ThisMonth" selected="@(Model.SelectedTimeRange == "ThisMonth")">This Month</option>
+            <option value="ThisWeek" selected="@(Model.SelectedTimeRange == "ThisWeek")">This week</option>
+        </select>
+      
+    </div>
+
+    <div>
+        <select name="pageSize" class="form-select" onchange="this.form.submit()">
+            @foreach (var size in Model.PageSizeOptions)
+            {
+                <option value="@size" selected="@(Model.PageSize == size)">
+                    @size per sida
+                </option>
+            }
+        </select>
+    </div>
+
+    <input type="hidden" name="view" value="@(Model.IsGridView ? "grid" : "list")" />
+</form>
+

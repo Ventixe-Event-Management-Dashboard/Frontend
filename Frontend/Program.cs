@@ -4,6 +4,7 @@ using Authentication.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Net.Http.Headers;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,16 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
 builder.Services.AddHttpClient("UserProfileService", x =>
 {
     x.BaseAddress = new Uri("https://userprofileservice20250526122221-hucuazd2dbgqhee6.swedencentral-01.azurewebsites.net/api/");
+});
+
+//builder.Services.AddHttpClient<BookingsService>(x =>
+//{
+//    x.BaseAddress = new Uri("https://webapibookings-and4aeajc7a7bkf7.swedencentral-01.azurewebsites.net");
+//});
+
+builder.Services.AddHttpClient("EventService", x =>
+{
+    x.BaseAddress = new Uri("https://localhost:7128"); // <-- Ändra till rätt URL
 });
 
 builder.Services.AddHttpClient();
