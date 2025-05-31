@@ -1,5 +1,5 @@
 ﻿using Authentication.Services;
-using Frontend.Models;
+using Frontend.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Contracts;
@@ -20,7 +20,7 @@ namespace Frontend.Controllers
         }
 
         [HttpPost("signup")]
-        public async Task<IActionResult> SignUp(SignUpForm form)
+        public async Task<IActionResult> SignUp(SignUpViewModel form)
         {
             if (!ModelState.IsValid)
                 return View(form);
@@ -67,7 +67,7 @@ namespace Frontend.Controllers
         }
 
         [HttpPost("signin")]
-        public async Task<IActionResult> SignIn(SignInForm signInForm, string? returnUrl = null)
+        public async Task<IActionResult> SignIn(SignInViewModel signInForm, string? returnUrl = null)
         {
             ViewBag.ReturnUrl = returnUrl;
 

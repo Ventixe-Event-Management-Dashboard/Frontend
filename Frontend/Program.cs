@@ -16,7 +16,8 @@ builder.Services.AddControllersWithViews(x =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 
-builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<ApplicationDbContext>(x =>
+    x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -24,7 +25,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
 
 builder.Services.AddHttpClient("UserProfileService", x =>
 {
-    x.BaseAddress = new Uri("https://userprofileservice20250526122221-hucuazd2dbgqhee6.swedencentral-01.azurewebsites.net/");
+    x.BaseAddress = new Uri("https://userprofileservice20250526122221-hucuazd2dbgqhee6.swedencentral-01.azurewebsites.net/api/");
 });
 
 //builder.Services.AddHttpClient<BookingsService>(x =>
@@ -37,10 +38,8 @@ builder.Services.AddHttpClient("EventService", x =>
     x.BaseAddress = new Uri("https://localhost:7128"); // <-- Ändra till rätt URL
 });
 
-//builder.Services.AddHttpClient("DashboardService", x =>
-//{
-//    x.BaseAddress = new Uri("https://webapibookings-and4aeajc7a7bkf7.swedencentral-01.azurewebsites.net"); // <-- Ändra till rätt URL
-//});
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
@@ -69,7 +68,6 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.Cookie.IsEssential = true;
     x.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
-
 
 var app = builder.Build();
 

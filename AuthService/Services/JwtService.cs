@@ -1,4 +1,5 @@
 ﻿using Authentication.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -33,5 +34,7 @@ namespace Authentication.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        public string? GetToken(HttpContext context) => context?.Request.Cookies["jwt"];
     }
 }

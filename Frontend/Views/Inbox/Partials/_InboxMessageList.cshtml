@@ -1,30 +1,25 @@
 ﻿@model IEnumerable<MessageItem>
 
-<div class="message-list">
-    @if (!Model.Any())
-    {
-        <p>Inga meddelanden här.</p>
-    }
-    else
-    {
-        foreach (var message in Model)
+@if (!Model.Any())
+{
+    <p>Inga meddelanden hittades.</p>
+}
+else
+{
+    <ul class="inbox__message-list">
+        @foreach (var msg in Model)
         {
-            <div class="message-item @(Model.First() == message ? "message-item--active" : "")" data-id="@message.Id">
-                <div class="message-item__header">
-                    <div class="message-item__avatar">
-                        @message.Sender.Substring(0, 2).ToUpper()
-                    </div>
-                    <div class="message-item__info">
-                        <div class="message-item__top">
-                            <span class="message-item__sender">@message.Sender</span>
-                            <span class="message-item__time">@message.SentAt.ToString("hh:mm tt")</span>
-                        </div>
-                        <div class="message-item__subject">@message.Subject</div>
-                        <div class="message-item__preview">@message.Preview</div>
-                    </div>
-                    <div class="message-item__label">@message.Label</div>
-                </div>
-            </div>
+            <li class="inbox__message-item">
+                <a asp-controller="Inbox"
+                   asp-action="ViewMessage"
+                   asp-route-id="@msg.Id"
+                   asp-route-folder="@ViewBag.CurrentFolder">
+                    <div class="inbox__message-sender">@msg.Sender</div>
+                    <div class="inbox__message-subject">@msg.Subject</div>
+                    <div class="inbox__message-preview">@msg.Preview</div>
+                    <div class="inbox__message-date">@msg.SentAt.ToString("g")</div>
+                </a>
+            </li>
         }
-    }
-</div>
+    </ul>
+}

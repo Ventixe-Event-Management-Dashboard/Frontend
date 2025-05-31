@@ -14,22 +14,48 @@
     }
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.message-item').forEach(item => {
-        item.addEventListener('click', function () {
-            const id = this.dataset.id;
+//tagit hjälp av chatgpt då mitt första Javascript som jag skrev hade problem med cors.
 
-            fetch(`/Inbox/GetMessageDetail/${id}`)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('messageDetailContainer').innerHTML = html;
+document.getElementById("openComposeBtn").addEventListener("click", function () {
+    fetch("/Inbox/GetComposeForm")
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("composeContent").innerHTML = html;
+            document.getElementById("composeModal").style.display = "block";
 
-                    document.querySelectorAll('.message-item').forEach(el => {
-                        el.classList.remove('message-item--active');
+            const form = document.getElementById("composeForm");
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+
+                const payload = {
+                    receiverId: formData.get("receiverId"),
+                    subject: formData.get("subject"),
+                    content: formData.get("content")
+                };
+
+                console.log("Skickar payload till backend:", payload);
+
+                fetch("/Inbox/Compose", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                })
+                    .then(res => {
+                        console.log("Svarskod:", res.status);
+                        return res.text().then(text => {
+                            console.log("Svarstext:", text);
+                            if (res.ok) {
+                                alert("Meddelande skickat!");
+                                document.getElementById("composeModal").style.display = "none";
+                            } else {
+                                alert("Fel: " + res.status);
+                            }
+                        });
                     });
-
-                    this.classList.add('message-item--active');
-                });
+            });
         });
-    });
 });

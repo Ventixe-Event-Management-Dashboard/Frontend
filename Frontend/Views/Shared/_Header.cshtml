@@ -1,10 +1,13 @@
-﻿<header class="header">
+﻿@model Frontend.ViewModels.UserViewModel 
+
+<header class="header">
     <div class="header__left">
-        <a class="header__ventixe-logo">
+        <a class="header__ventixe-logo" href="/">
+            
             <img src="~/images/ventixe-logotype.svg" />
         </a>
         <h1 class="header__heading">Dashboard</h1>
-        <span class="header__text">Hello Orlando, welcome back!</span>
+        <span class="header__text">Hello @Model.FirstName, welcome back!</span>
         <button id="hamburgerMenuButton" class="header__hamburger-menu" aria-label="Open menu">
             <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <use href="#icon-hamburger" />
@@ -34,7 +37,7 @@
                     <use href="#icon-notifications" />
                 </svg>
             </a>
-            <a href="#">
+            <a href="/updateuser">
                 <svg width="40"
                      height="40"
                      viewBox="0 0 40 40"
@@ -55,8 +58,8 @@
                 </svg>
             </a>
             <div class="header__user-info">
-                <span class="header__user-name">Orlando Laurentius</span>
-                <span class="header__user-role">Admin</span>
+                <span class="header__user-name">@Model.FirstName @Model.LastName</span>
+                @* <span class="header__user-role">Admin</span> *@
             </div>
         </div>  
     </div>
