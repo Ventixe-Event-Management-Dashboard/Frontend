@@ -5,6 +5,7 @@ using System.Text.Json;
 
 namespace Frontend.Controllers
 {
+    // Tagit hjälp av chatgpt
     public class InboxController(HttpClient httpClient, IHttpContextAccessor httpContextAccessor) : Controller
     {
         private readonly HttpClient _httpClient = httpClient;
