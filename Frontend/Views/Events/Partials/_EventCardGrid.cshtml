@@ -1,0 +1,11 @@
+﻿@model Frontend.Models.Event.EventDto
+
+<div class="event-card-grid">
+    <img src="@Model.ImgUrl" alt="@Model.Title" class="event-image" />
+    <div class="event-info">
+        <h3>@Model.Title</h3>
+        <p>@Model.Description</p>
+        <span>@Model.EventDate.ToString("yyyy-MM-dd")</span>
+        <span class="price">@Model.Price.ToString("C")</span>
+    </div>
+</div>

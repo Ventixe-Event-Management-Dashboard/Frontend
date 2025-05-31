@@ -2,11 +2,11 @@
 
 namespace Frontend.Controllers
 {
-    public class BookingsController : Controller
+    public class BookingController : Controller
     {
         public IActionResult Index()
         {
-            ViewData["ActivePage"] = "bookings";
+            ViewData["ActivePage"] = "booking";
 
             return View();
         }

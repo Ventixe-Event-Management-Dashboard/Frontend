@@ -1,1 +1,68 @@
-﻿<div>EVENTS</div>
+﻿@model Frontend.Models.Event.EventViewModel
+@{
+    var isGridView = Model.IsGridView;
+    var pageSizeOptions = new[] { 8, 16 };
+}
+
+<div class="container">
+
+    <partial name="Partials/_EventsHeader" model="Model" />
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <a asp-action="Index" asp-route-view="grid" asp-route-page="1"
+               asp-route-pageSize="@Model.PageSize"
+               asp-route-searchQuery="@Model.SearchQuery"
+               asp-route-selectedCategory="@Model.SelectedCategory"
+               asp-route-selectedTimeRange="@Model.SelectedTimeRange"
+               class="btn btn-outline-primary @(isGridView ? "active" : "")">🔲 Rutnät</a>
+
+            <a asp-action="Index" asp-route-view="list" asp-route-page="1"
+               asp-route-pageSize="@Model.PageSize"
+               asp-route-searchQuery="@Model.SearchQuery"
+               asp-route-selectedCategory="@Model.SelectedCategory"
+               asp-route-selectedTimeRange="@Model.SelectedTimeRange"
+               class="btn btn-outline-primary @(!isGridView ? "active" : "")">📋 Lista</a>
+        </div>
+
+        <div>
+            <form method="get" asp-action="Index" class="form-inline">
+                <input type="hidden" name="view" value="@(isGridView ? "grid" : "list")" />
+                <input type="hidden" name="searchQuery" value="@Model.SearchQuery" />
+                <input type="hidden" name="selectedCategory" value="@Model.SelectedCategory" />
+                <input type="hidden" name="selectedTimeRange" value="@Model.SelectedTimeRange" />
+                <select name="pageSize" class="form-select" onchange="this.form.submit()">
+                    @foreach (var option in pageSizeOptions)
+                    {
+                        <option value="@option" selected="@(Model.PageSize == option)">
+                            Visa @option per sida
+                        </option>
+                    }
+                </select>
+            </form>
+        </div>
+    </div>
+
+    @if (isGridView)
+    {
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            @foreach (var item in Model.Events)
+            {
+                <div class="col">
+                    <partial name="Partials/_EventCardGrid" model="item" />
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="list-group">
+            @foreach (var item in Model.Events)
+            {
+                <partial name="Partials/_EventCardList" model="item" />
+            }
+        </div>
+    }
+
+    <partial name="Partials/_EventsFooter" model="Model" />
+</div>

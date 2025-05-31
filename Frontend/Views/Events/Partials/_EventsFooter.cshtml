@@ -1,0 +1,23 @@
+﻿@model Frontend.Models.Event.EventViewModel
+@{
+    var totalPages = (int)Math.Ceiling((double)Model.TotalEvents / Model.PageSize);
+}
+
+<nav>
+    <ul class="pagination">
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="@i"
+                   asp-route-pageSize="@Model.PageSize"
+                   asp-route-view="@(Model.IsGridView ? "grid" : "list")"
+                   asp-route-searchQuery="@Model.SearchQuery"
+                   asp-route-selectedCategory="@Model.SelectedCategory"
+                   asp-route-selectedTimeRange="@Model.SelectedTimeRange">
+                    @i
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
