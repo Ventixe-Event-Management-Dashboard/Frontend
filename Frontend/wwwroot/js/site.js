@@ -14,6 +14,8 @@
     }
 });
 
+//tagit hjälp av chatgpt då mitt första Javascript som jag skrev hade problem med cors.
+
 document.getElementById("openComposeBtn").addEventListener("click", function () {
     fetch("/Inbox/GetComposeForm")
         .then(res => res.text())
