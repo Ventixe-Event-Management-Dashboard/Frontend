@@ -1,0 +1,28 @@
+﻿@model RegisterEmailViewModel
+
+@{
+    ViewData["Title"] = "Sign up";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="auth-form__wrapper">
+    <form method="post" class="auth-form" novalidate>
+        <h2 class="auth-form__title">Enter your email</h2>
+        <div>
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <span class="text-danger">@ViewBag.ErrorMessage</span>
+            }
+
+            <label asp-for="Email" class="auth-form__label"></label>
+            <input asp-for="Email" class="auth-form__input" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <button type="submit" class="auth-form__button">Submit</button>
+
+        <p class="auth-form__text">
+            Already have an account?
+            <a class="auth-form__link" href="/signin">Sign In</a>
+        </p>
+    </form>
+</div>

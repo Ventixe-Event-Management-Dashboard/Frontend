@@ -1,0 +1,40 @@
+﻿@model SignUpViewModel
+
+@{
+    ViewData["Title"] = "Sign up";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="auth-form__wrapper">
+    <form method="post" class="auth-form" novalidate>
+        <h2 class="auth-form__title">Create Account</h2>
+
+        <input type="hidden" asp-for="Email" />
+
+        <div>
+            <label asp-for="FirstName" class="auth-form__label"></label>
+            <input asp-for="FirstName" class="auth-form__input" />
+            <span asp-validation-for="FirstName"></span>
+        </div>
+
+        <div>
+            <label asp-for="LastName" class="auth-form__label"></label>
+            <input asp-for="LastName" class="auth-form__input" />
+            <span asp-validation-for="LastName"></span>
+        </div>
+
+        <div>
+            <label asp-for="Password" class="auth-form__label"></label>
+            <input asp-for="Password" class="auth-form__input" type="password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+
+        <div>
+            <label asp-for="ConfirmPassword" class="auth-form__label"></label>
+            <input asp-for="ConfirmPassword" class="auth-form__input" type="password" />
+            <span asp-validation-for="ConfirmPassword"></span>
+        </div>
+
+        <button type="submit" class="auth-form__button">Sign Up</button>
+    </form>
+</div>

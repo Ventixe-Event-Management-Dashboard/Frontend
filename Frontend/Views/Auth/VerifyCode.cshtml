@@ -1,0 +1,22 @@
+﻿@model VerifyCodeViewModel
+
+@{
+    ViewData["Title"] = "Code Verification";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="auth-form__wrapper">
+    <form method="post" class="auth-form" novalidate>
+        <h2 class="auth-form__title">Code Verification</h2>
+
+        <input type="hidden" asp-for="Email" />
+
+        <div class="auth-form__group">
+            <label asp-for="Code" class="auth-form__label">Enter the code sent to your email</label>
+            <input asp-for="Code" class="auth-form__input" />
+            <span asp-validation-for="Code" class="auth-form__error"></span>
+        </div>
+
+        <button type="submit" class="auth-form__button">Verify Code</button>
+    </form>
+</div>
