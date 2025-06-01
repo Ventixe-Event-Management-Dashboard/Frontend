@@ -1,15 +1,20 @@
-﻿using Authentication.Entities;
+﻿using Authentication.Data;
+using Authentication.Entities;
 using Authentication.Services;
 using Frontend.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 
 public class UserContextService(
+    ApplicationDbContext dbContext,
     IHttpContextAccessor contextAccessor,
     IHttpClientFactory httpClientFactory,
-    IJwtService jwtService)
+IJwtService jwtService)
 {
+    readonly ApplicationDbContext _dbContext = dbContext;
     private readonly IHttpContextAccessor _contextAccessor = contextAccessor;
     private readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
     private readonly IJwtService _jwtService = jwtService;
@@ -20,22 +25,29 @@ public class UserContextService(
         if (context == null || context.User.Identity?.IsAuthenticated != true)
             return null;
 
-        var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (string.IsNullOrWhiteSpace(userId))
-            return null;
+        string? userId = context?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var token = await EnsureJwtAsync(context, userId);
-        if (string.IsNullOrWhiteSpace(token))
-            return null;
 
-        var client = _httpClientFactory.CreateClient("UserProfileService");
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        //var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        //if (string.IsNullOrWhiteSpace(userId))
+        //    return null;
 
-        var response = await client.GetAsync($"users/{userId}");
+        //var token = await EnsureJwtAsync(context, userId);
+        //if (string.IsNullOrWhiteSpace(token))
+        //    return null;
 
-        return response.IsSuccessStatusCode
-            ? await response.Content.ReadFromJsonAsync<UserViewModel>()
-            : null;
+        //var client = _httpClientFactory.CreateClient("UserProfileService");
+        //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        //var response = await client.GetAsync($"users/{userId}");
+
+       var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == userId);
+
+        return new UserViewModel
+        {
+            FirstName = user.UserName,
+            
+        };
     }
 
     public async Task<bool> UpdateCurrentUserAsync(UserViewModel model)

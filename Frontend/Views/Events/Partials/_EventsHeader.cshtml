@@ -1,35 +1,43 @@
 ﻿@model Frontend.Models.Event.EventViewModel
 
-<form method="get" asp-action="Index" class="d-flex justify-content-between align-items-center mb-4">
+<form method="get" asp-action="Index" class="header-form">
+    <div class=" header-section">
+        <div class="header-section-left">
+            <select name="pageSize" class="form-select" onchange="this.form.submit()">
+                @foreach (var size in Model.PageSizeOptions)
+                {
+                    <option value="@size" selected="@(Model.PageSize == size)">
+                      Show  @size per page
+                    </option>
+                }
+            </select>
+        </div>
 
-    <div class="d-flex gap-2">
-        <input type="text" name="searchQuery" value="@Model.SearchQuery" placeholder="Search event..." class="form-control" />
+        <div class="header-section-right">
 
-        <select name="selectedCategory" class="form-select" onchange=" this.form.submit()">
-            <option value="">Alla kategorier</option>
-            <option value="Art & Design" selected="@(Model.SelectedCategory == "Art & Design")">Art & Design</option>
-            <option value="Fashion" selected="@(Model.SelectedCategory == "Fashion")">Fashion</option>
-            <option value="Music" selected="@(Model.SelectedCategory == "Music")">Music</option>
-            <option value="Sport" selected="@(Model.SelectedCategory == "Sport")">Sport</option>
-        </select>
+            <div class="header-section-search">
+                <input type="text" name="searchQuery" value="@Model.SearchQuery" placeholder="Search event..." class="form-control" />
+            </div>
 
-        <select name="selectedTimeRange" class="form-select" onchange=" this.form.submit()">
-            <option value="">All</option>
-            <option value="ThisMonth" selected="@(Model.SelectedTimeRange == "ThisMonth")">This Month</option>
-            <option value="ThisWeek" selected="@(Model.SelectedTimeRange == "ThisWeek")">This week</option>
-        </select>
+            <div class="header-section-category">
+                <select name="selectedCategory" class="form-select" onchange=" this.form.submit()">
+                    <option value="">Alla kategorier</option>
+                    <option value="Art & Design" selected="@(Model.SelectedCategory == "Art & Design")">Art & Design</option>
+                    <option value="Fashion" selected="@(Model.SelectedCategory == "Fashion")">Fashion</option>
+                    <option value="Music" selected="@(Model.SelectedCategory == "Music")">Music</option>
+                    <option value="Sport" selected="@(Model.SelectedCategory == "Sport")">Sport</option>
+                </select>
+            </div>
+
+            <div class="header-section-date">
+                <select name="selectedTimeRange" class="form-select" onchange=" this.form.submit()">
+                    <option value="">All</option>
+                    <option value="ThisMonth" selected="@(Model.SelectedTimeRange == "ThisMonth")">This Month</option>
+                    <option value="ThisWeek" selected="@(Model.SelectedTimeRange == "ThisWeek")">This week</option>
+                </select>
+            </div>
       
-    </div>
-
-    <div>
-        <select name="pageSize" class="form-select" onchange="this.form.submit()">
-            @foreach (var size in Model.PageSizeOptions)
-            {
-                <option value="@size" selected="@(Model.PageSize == size)">
-                    @size per sida
-                </option>
-            }
-        </select>
+        </div>
     </div>
 
     <input type="hidden" name="view" value="@(Model.IsGridView ? "grid" : "list")" />

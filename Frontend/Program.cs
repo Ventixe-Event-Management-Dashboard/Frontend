@@ -37,7 +37,7 @@ builder.Services.AddHttpClient("UserProfileService", x =>
 
 builder.Services.AddHttpClient("EventService", x =>
 {
-    x.BaseAddress = new Uri("https://localhost:7128"); // <-- Ändra till rätt URL
+    x.BaseAddress = new Uri("https://webapibookings-and4aeajc7a7bkf7.swedencentral-01.azurewebsites.net"); // <-- Ändra till rätt URL
 });
 
 builder.Services.AddHttpClient();
@@ -73,6 +73,12 @@ builder.Services.ConfigureApplicationCookie(x =>
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    //app.UseMigrationsEndPoint();
+}
+
 app.UseHsts();
 app.UseHttpsRedirection();
 app.UseRouting();
@@ -82,7 +88,7 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-app.MapControllerRoute(
+app.MapControllerRoute( 
     name: "default",
     pattern: "{controller=Dashboard}/{action=Index}/{id?}")
     .WithStaticAssets();

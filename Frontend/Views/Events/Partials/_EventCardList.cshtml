@@ -1,15 +1,17 @@
 ﻿@model Frontend.Models.Event.EventDto
 
-<div class="event-card-list">
-    <div class="event-thumbnail">
-        <img src="@Model.ImgUrl" alt="@Model.Title" />
-    </div>
-    <div class="event-details">
-        <h3>@Model.Title</h3>
-        <p>@Model.Description</p>
-        <p><strong>Plats:</strong> @Model.VenueId</p>
-        <p><strong>Datum:</strong> @Model.EventDate.ToString("yyyy-MM-dd")</p>
-        <p><strong>Status:</strong> @Model.StatusId</p>
-        <p><strong>Pris:</strong> @Model.Price.ToString("C")</p>
+<div class="event-card">
+    <div class="event-card-list">
+        <div class="event-thumbnail">
+            <img src="@Model.ImgUrl" alt="@Model.Title" />
+        </div>
+        <div class="event-details">
+            <h3>@Model.Title</h3>
+            <p>@Model.Description</p>
+            <p><strong>Plats:</strong> @Model.VenueId</p>
+            <p><strong>Datum:</strong> @Model.EventDate.ToString("yyyy-MM-dd")</p>
+            <p><strong>Status:</strong> @Model.StatusId</p>
+            <p><strong>Pris:</strong> @Model.Price.ToString("C")</p>
+        </div>
     </div>
 </div>

@@ -1,23 +1,46 @@
 ﻿@model Frontend.Models.Event.EventViewModel
 @{
     var totalPages = (int)Math.Ceiling((double)Model.TotalEvents / Model.PageSize);
+    var isGridView = Model.IsGridView;
+    var pageSizeOptions = new[] { 8, 16 };
 }
-
-<nav>
-    <ul class="pagination">
-        @for (int i = 1; i <= totalPages; i++)
-        {
-            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                <a class="page-link" asp-action="Index"
-                   asp-route-page="@i"
-                   asp-route-pageSize="@Model.PageSize"
-                   asp-route-view="@(Model.IsGridView ? "grid" : "list")"
-                   asp-route-searchQuery="@Model.SearchQuery"
-                   asp-route-selectedCategory="@Model.SelectedCategory"
-                   asp-route-selectedTimeRange="@Model.SelectedTimeRange">
-                    @i
-                </a>
-            </li>
-        }
-    </ul>
-</nav>
+<div class="footer-section">
+    <div class="footer-section-left">
+        <div>
+            <form method="get" asp-action="Index" class="form-inline">
+                <input type="hidden" name="view" value="@(isGridView ? "grid" : "list")" />
+                <input type="hidden" name="searchQuery" value="@Model.SearchQuery" />
+                <input type="hidden" name="selectedCategory" value="@Model.SelectedCategory" />
+                <input type="hidden" name="selectedTimeRange" value="@Model.SelectedTimeRange" />
+                <select name="pageSize" class="form-select" onchange="this.form.submit()">
+                    @foreach (var option in pageSizeOptions)
+                    {
+                        <option value="@option" selected="@(Model.PageSize == option)">
+                            Show @option per page
+                        </option>
+                    }
+                </select>
+            </form>
+        </div>
+    </div>
+    <div class="footer-section-right">
+        <nav>
+            <ul class="pagination">
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link" asp-action="Index"
+                           asp-route-page="@i"
+                           asp-route-pageSize="@Model.PageSize"
+                           asp-route-view="@(Model.IsGridView ? "grid" : "list")"
+                           asp-route-searchQuery="@Model.SearchQuery"
+                           asp-route-selectedCategory="@Model.SelectedCategory"
+                           asp-route-selectedTimeRange="@Model.SelectedTimeRange">
+                            @i
+                        </a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>
