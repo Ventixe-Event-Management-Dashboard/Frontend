@@ -1,0 +1,126 @@
+﻿
+/*-----HEADER-----*/
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header-section-search{
+    padding: 10px;
+}
+
+.header-section-category {
+    padding: 10px;
+}
+
+.header-section-sort-date {
+    padding: 10px;
+}
+/*-----MAIN-----*/
+.event-view-mode {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+.event-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    gap: 8px;
+}
+
+.event-container-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    gap: 12px;
+    flex: 0 0 auto;
+}
+
+.event-card-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    background-color: var(--grey-10);
+    gap: 12px;
+    padding: 12px;
+    flex: 1 1 0%;
+    border-radius: 16px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.event-image-grid {
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    height: 209px;
+    background-color: var(--cool-grey-40);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.event-container-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+}
+
+.event-card-list {
+    display: flex;
+    width: 1133px;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px 12px 12px;
+    position: relative;
+    flex: 0 0 auto;
+    background-color: var(--grey-10);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.event-image-list {
+    height: 96px;
+    background-color: var(--cool-grey-40);
+}
+
+.grid-group{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+}
+
+.grid-group-colum {
+    width: 25%;
+    padding: 10px;
+
+}
+.list-group-row {
+    padding: 10px;
+}
+
+.events-filter {
+   display: flex;
+   align-items: flex-end;
+   width: 100%;
+}
+
+/*-----FOOTER-----*/
+.footer-section{
+    display: flex;
+    justify-content: space-between;
+}

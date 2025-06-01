@@ -19,22 +19,26 @@ namespace Authentication.Services
 
         public async Task<bool> SendVerificationCodeAsync(string email)
         {
-            var payload = new { Email = email };
-            var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+            //var payload = new { Email = email };
+            //var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync(_sendUrl, content);
+            //var response = await _httpClient.PostAsync(_sendUrl, content);
 
-            return response.IsSuccessStatusCode;
+            //return response.IsSuccessStatusCode;
+
+            return true;
         }
 
         public async Task<bool> VerifyCodeAsync(string email, string code)
         {
-            var payload = new { Email = email, Code = code };
-            var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+            //var payload = new { Email = email, Code = code };
+            //var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync(_verifyUrl, content);
+            //var response = await _httpClient.PostAsync(_verifyUrl, content);
 
-            return response.IsSuccessStatusCode;
+            //return response.IsSuccessStatusCode;
+
+            return true;
         }
     }
 }
