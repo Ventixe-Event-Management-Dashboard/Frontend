@@ -9,5 +9,6 @@ namespace Authentication.Services
         Task SignOutAsync();
         Task<IdentityResult> SignUpAsync(RegisterDto registerDto);
         Task<IdentityResult> DeleteByIdAsync(string id);
+        Task<bool> UserExistsAsync(string email);
     }
 }

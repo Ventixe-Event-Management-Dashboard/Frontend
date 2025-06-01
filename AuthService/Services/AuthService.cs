@@ -99,5 +99,10 @@ namespace Authentication.Services
 
             return result;
         }
+
+        public async Task<bool> UserExistsAsync(string email)
+        {
+            return await _userManager.FindByEmailAsync(email) != null;
+        }
     }
 }
